@@ -76,8 +76,8 @@ def process_excel_file(excel_file_path, output_folder, filename_set):
 
 if __name__ == "__main__":
 
-    excel_file_path = r"C:\Users\RomMam\Documents\0Projects\Codes\WebDev\2024\qrcode generator for excel\accountsQR.xlsx"
-    output_folder = r"C:\Users\RomMam\Documents\0Projects\Codes\WebDev\2024\qrcode generator for excel\qr_codes"
+    excel_file_path = r"file.xlsx"
+    output_folder = r"output_folder"
     filename_set = set()  # Set to keep track of generated QR code filenames 
 
     process_excel_file(excel_file_path, output_folder, filename_set)
