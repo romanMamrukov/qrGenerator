@@ -1,4 +1,4 @@
-<h1>Instructions</h1<>
+<h1>Instructions</h1>
 <p>Extract zip file, create folder where to store QR codes and follow instructions further</p>
 <p>1.Prepare data in userQR.xlsx (Type Name and information which should be stored in QR file. Example in a first row)</p>
 <img height="250" src="img/step1.png">
