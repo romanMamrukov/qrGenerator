@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RM - QR Code Generator - test</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        max-width: 650px;
+    }
+    .section {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+    }
+    #qr-display {
+        margin-top: 20px;
+        text-align: center;
+    }
+    #qr-display canvas {
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<h1>QR Code Generator</h1>
+
+<div class="section">
+    <h2>1. Generate Text / URL QR Code</h2>
+    <label>Content</label>
+    <textarea id="genericInput" rows="4" placeholder="Enter text or URL"></textarea>
+
+    <button onclick="generateGeneric()">Generate QR</button>
+</div>
+
+<div class="section">
+    <h2>2. Generate WiFi QR Code</h2>
+
+    <label>SSID (WiFi Name)</label>
+    <input id="wifiSsid" type="text">
+
+    <label>Password</label>
+    <input id="wifiPass" type="text">
+
+    <label>Encryption</label>
+    <select id="wifiEnc">
+        <option value="WPA">WPA/WPA2</option>
+        <option value="WEP">WEP</option>
+        <option value="nopass">None</option>
+    </select>
+
+    <button onclick="generateWifi()">Generate WiFi QR</button>
+</div>
+
+<div id="qr-display">
+    <h2>QR Output</h2>
+    <div id="qrcode"></div>
+    <br>
+    <a id="downloadLink" style="display:none" download="qrcode.png">Download QR Code</a>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+let qr;
+
+function resetOutput() {
+    document.getElementById("qrcode").innerHTML = "";
+    document.getElementById("downloadLink").style.display = "none";
+}
+
+function enableDownload() {
+    const canvas = document.querySelector("#qrcode canvas");
+    if (!canvas) return;
+    const link = document.getElementById("downloadLink");
+    link.href = canvas.toDataURL("image/png");
+    link.style.display = "inline-block";
+}
+
+function generateGeneric() {
+    resetOutput();
+    const text = document.getElementById("genericInput").value.trim();
+    if (!text) return;
+
+    qr = new QRCode(document.getElementById("qrcode"), {
+        text: text,
+        width: 256,
+        height: 256
+    });
+
+    setTimeout(enableDownload, 500);
+}
+
+function generateWifi() {
+    resetOutput();
+
+    const ssid = document.getElementById("wifiSsid").value.trim();
+    const pass = document.getElementById("wifiPass").value.trim();
+    const enc = document.getElementById("wifiEnc").value;
+
+    if (!ssid) return;
+
+    let wifiString = `WIFI:T:${enc};S:${ssid};`;
+    if (enc !== "nopass") wifiString += `P:${pass};`;
+    wifiString += `;`;
+
+    qr = new QRCode(document.getElementById("qrcode"), {
+        text: wifiString,
+        width: 256,
+        height: 256
+    });
+
+    setTimeout(enableDownload, 500);
+}
+</script>
+
+</body>
+</html>
